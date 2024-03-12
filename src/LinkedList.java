@@ -198,7 +198,8 @@ class LinkedList<E> implements List<E>{
 	}
 
 	public void ian(){
-		
+		System.out.println("ian waki");
+		System.out.println("teste");
 	}
 
 
