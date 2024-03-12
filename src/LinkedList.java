@@ -189,12 +189,16 @@ class LinkedList<E> implements List<E>{
 				currentNode.value = newValue;
 				valueExchanged = true;
 			}
-			currentNode = currentNode.next;
+			currentNode = currentNode.next; 
 		}
 		
 		if(!valueExchanged) {
 		System.out.println(previousValue + " not found in list");
 		}
+	}
+
+	public void ian(){
+		
 	}
 
 
