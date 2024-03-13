@@ -249,6 +249,13 @@ class LinkedList<E> implements List<E>{
 	    return removedValue;
 	}
 
+	@Override
+	public void clear() throws EmptyListException {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+
 
 	
 

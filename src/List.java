@@ -12,7 +12,6 @@ public interface List<E>{
 	E get(int index) throws IndexOutOfBoundsException;
 	void set(int index, E value) throws IndexOutOfBoundsException;
 	void replaceValue(E previousValue, E newValue) throws EmptyListException;
-	//int indexOf(E value) throws EmptyListException, InvalidValueException;
 	boolean contains(E value) throws EmptyListException;
-	//void clear() throws EmptyListException;
+	void clear() throws EmptyListException;
 }
