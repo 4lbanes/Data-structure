@@ -21,7 +21,12 @@ public class Main {
 		
 		System.out.println(list.get(4));
 		
-		list.replaceValue(199, 100);
+		list.replaceValue(20, 100);
+		System.out.println(list);
+		
+		System.out.println(list.contains(100));
+		
+		list.removeByValue(1);
 		System.out.println(list);
 		
 		//list.removeByIndex(3);

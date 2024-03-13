@@ -192,15 +192,65 @@ class LinkedList<E> implements List<E>{
 			currentNode = currentNode.next; 
 		}
 		
-		if(!valueExchanged) {
+		if(valueExchanged == false) {
 		System.out.println(previousValue + " not found in list");
 		}
 	}
 
-	public void ian(){
-		System.out.println("ian waki");
-		System.out.println("teste");
+	@Override
+	public boolean contains(E value) throws EmptyListException {
+		
+		if(isEmpty()) {
+			new EmptyListException("Linked list is empty");
+		}
+		
+		Node newNode = head;
+		
+		while(newNode != null) {
+			if(newNode.value.equals(value)) {
+				return true;
+			}
+			newNode = newNode.next;
+		}
+		
+		return false;
 	}
+
+	public E removeByValue(E value) throws EmptyListException {
+	    if(isEmpty()) {
+	        throw new EmptyListException("Linked list is empty");
+	    }
+	    
+	    E removedValue = null;
+	    
+	    if(value.equals(head.value)) {
+	        removedValue = removeFirst();
+	    } else if(value.equals(tail.value)) {
+	        removedValue = removeLast();
+	    } else {
+	        Node previousNode = null;
+	        Node currentNode = head;
+	        
+	        while(currentNode != null && !currentNode.value.equals(value)) {
+	            previousNode = currentNode;
+	            currentNode = currentNode.next;
+	        }
+	        
+	        if(currentNode != null) {
+	            removedValue = currentNode.value;
+	            previousNode.next = currentNode.next;
+	            currentNode.next = null;
+	            size--;
+	        } else {
+	            System.out.println(value + " not found in list");
+	        }
+	    }
+	    
+	    return removedValue;
+	}
+
+
+	
 
 
 
