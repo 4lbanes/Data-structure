@@ -29,9 +29,8 @@ public class Main {
 		list.removeByValue(1);
 		System.out.println(list);
 		
-		//list.removeByIndex(3);
-		//System.out.println(list);
-		
+		list.removeByIndex(3);
+		System.out.println(list);
 	}
 }
 

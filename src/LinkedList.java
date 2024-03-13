@@ -103,9 +103,25 @@ class LinkedList<E> implements List<E>{
 		}
 
 		if(index < 0 || index > size) {
-
+			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
-		return null;
+
+		E removedValue = null;
+
+		if(index == 0){
+			removedValue = removeFirst();
+		}else if(index == size - 1){
+			removedValue = removeLast();
+		}else{
+			Node newNode = head;
+			Node auxNode = getNode(index - 1);
+			newNode = auxNode.next;
+			removedValue = newNode.value;
+			auxNode.next = newNode.next;
+			newNode.next = null;
+			size--;
+		}
+		return removedValue;
 	}
 
 	@Override
@@ -245,7 +261,6 @@ class LinkedList<E> implements List<E>{
 	            System.out.println(value + " not found in list");
 	        }
 	    }
-	    
 	    return removedValue;
 	}
 
