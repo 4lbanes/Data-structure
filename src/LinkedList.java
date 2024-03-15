@@ -108,7 +108,6 @@ class DoubleLinkedList<E> implements List<E>{
 		}else if(index == size - 1){
 			removedValue = removeLast();
 		}else{
-			Node newNode = head;
 			Node auxNode1 = getNode(index);
 			Node auxNode2 = getNode(index - 1);
 			Node auxNode3 = getNode(index + 1);
@@ -206,81 +205,6 @@ class DoubleLinkedList<E> implements List<E>{
 		sb.append("]");
 		return sb.toString();
 	}
-	
-
-	/* 
-	@Override
-	public void replaceValue(E previousValue, E newValue) throws EmptyListException {
-		if(isEmpty()) {
-			new EmptyListException("Linked list is empty");
-		}
-		
-		Node currentNode = head;
-		boolean valueExchanged = false;
-		
-		while(currentNode != null) {
-			if(currentNode.value.equals(previousValue)) {
-				currentNode.value = newValue;
-				valueExchanged = true;
-			}
-			currentNode = currentNode.next; 
-		}
-		
-		if(valueExchanged == false) {
-		System.out.println(previousValue + " not found in list");
-		}
-	}
-
-	@Override
-	public boolean contains(E value) throws EmptyListException {
-		
-		if(isEmpty()) {
-			new EmptyListException("Linked list is empty");
-		}
-		
-		Node newNode = head;
-		
-		while(newNode != null) {
-			if(newNode.value.equals(value)) {
-				return true;
-			}
-			newNode = newNode.next;
-		}
-		
-		return false;
-	}*/
-
-	public E removeByValue(E value) throws EmptyListException {
-	    if(isEmpty()) {
-	        throw new EmptyListException("Linked list is empty");
-	    }
-	    
-	    E removedValue = null;
-	    
-	    if(value.equals(head.value)) {
-	        removedValue = removeFirst();
-	    } else if(value.equals(tail.value)) {
-	        removedValue = removeLast();
-	    } else {
-	        Node previousNode = null;
-	        Node currentNode = head;
-	        
-	        while(currentNode != null && !currentNode.value.equals(value)) {
-	            previousNode = currentNode;
-	            currentNode = currentNode.next;
-	        }
-	        
-	        if(currentNode != null) {
-	            removedValue = currentNode.value;
-	            previousNode.next = currentNode.next;
-	            currentNode.next = null;
-	            size--;
-	        } else {
-	            System.out.println(value + " not found in list");
-	        }
-	    }
-	    return removedValue;
-	}
 
 	@Override
 	public void clear() throws EmptyListException {
@@ -288,12 +212,4 @@ class DoubleLinkedList<E> implements List<E>{
 		tail = null;
 		size = 0;
 	}
-
-
-	
-
-
-
-
-
 }
