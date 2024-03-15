@@ -1,24 +1,25 @@
 
-class DoubleLinkedList<E> implements List<E>{
+class DoubleLinkedList<E> implements List<E> {
 
-	private class Node{
+	private class Node {
 		E value;
 		Node next;
 		Node prev;
 
-		public Node(E value){
+		public Node(E value) {
 			this.value = value;
 			// next = null;
 		}
 	}
-	
+
 	private int size;
 	private Node head;
 	private Node tail;
 
-	public DoubleLinkedList(){}
+	public DoubleLinkedList() {
+	}
 
-	public DoubleLinkedList(E value){
+	public DoubleLinkedList(E value) {
 		add(value);
 	}
 
@@ -26,16 +27,16 @@ class DoubleLinkedList<E> implements List<E>{
 	public void add(E value) {
 		Node newNode = new Node(value);
 
-		if(isEmpty()){
+		if (isEmpty()) {
 			head = newNode;
 			tail = newNode;
-		}else{
+		} else {
 			tail.next = newNode;
 			newNode.prev = tail;
 			newNode.next = null;
 			tail = newNode;
 		}
-		size++;      
+		size++;
 	}
 
 	@Override
@@ -50,9 +51,9 @@ class DoubleLinkedList<E> implements List<E>{
 	public void insert(E value) {
 		Node newNode = new Node(value);
 
-		if(isEmpty()){
+		if (isEmpty()) {
 			tail = newNode;
-		}else{
+		} else {
 			newNode.next = head;
 			head.prev = newNode;
 		}
@@ -60,64 +61,67 @@ class DoubleLinkedList<E> implements List<E>{
 		size++;
 	}
 
-	private Node getNode(int index){
+	private Node getNode(int index) {
 		Node auxNode = head;
-		for(int i = 0; i < index; i++){
+		for (int i = 0; i < index; i++) {
 			auxNode = auxNode.next;
 		}
 		return auxNode;
 	}
 
 	@Override
-	public void insert(int index, E value)  {
+	public void insert(int index, E value) {
 
-		if(index<=0){
+		if (index <= 0) {
 			insert(value);
-		}else if(index>=size){
+		} else if (index >= size) {
 			add(value);
-		}else{
+		} else {
 			Node newNode = new Node(value);
 			Node auxNode1 = getNode(index);
-			Node auxNode2 = getNode(index-1);
+			Node auxNode2 = getNode(index - 1);
+
 			auxNode2.next = newNode;
-			newNode.next =  auxNode1;
-			auxNode1 = newNode;
+			newNode.prev = auxNode2; 
+			newNode.next = auxNode1;
+			auxNode1.prev = newNode;
 			size++;
 		}
 	}
 
 	@Override
-	public boolean isEmpty() {       
+	public boolean isEmpty() {
 		return size == 0;
 	}
 
 	@Override
 	public E removeByIndex(int index) throws IndexOutOfBoundsException, EmptyListException {
-		if(isEmpty()){
+		if (isEmpty()) {
 			throw new EmptyListException("Linked List is Empty!");
 		}
 
-		if(index < 0 || index > size) {
+		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 
 		E removedValue = null;
 
-		if(index == 0){
+		if (index == 0) {
 			removedValue = removeFirst();
-		}else if(index == size - 1){
+		} else if (index == size - 1) {
 			removedValue = removeLast();
-		}else{
+		} else {
 			Node auxNode1 = getNode(index);
 			Node auxNode2 = getNode(index - 1);
 			Node auxNode3 = getNode(index + 1);
+			removedValue = auxNode1.value;
 
 			auxNode2.next = auxNode1.next;
 			auxNode3.prev = auxNode1.prev;
 
 			auxNode1.prev = null;
 			auxNode1.next = null;
-			
+
 			size--;
 		}
 		return removedValue;
@@ -125,16 +129,17 @@ class DoubleLinkedList<E> implements List<E>{
 
 	@Override
 	public E removeFirst() throws EmptyListException {
-		if(isEmpty()){
+		if (isEmpty()) {
 			throw new EmptyListException("Linked List is Empty!");
 		}
 		Node auxNode = head;
-		if(size == 1){
+		if (size == 1) {
 			head = null;
 			tail = null;
-		}else{
+		} else {
 			head = head.next;
 			auxNode.next = null;
+			auxNode.prev = null;
 		}
 		size--;
 		return auxNode.value;
@@ -142,15 +147,15 @@ class DoubleLinkedList<E> implements List<E>{
 
 	@Override
 	public E removeLast() throws EmptyListException {
-		if(isEmpty()){
+		if (isEmpty()) {
 			throw new EmptyListException("Linked List is Empty!");
 		}
 		E value = tail.value;
-		if(size == 1){
+		if (size == 1) {
 			head = null;
 			tail = null;
-		}else{
-			Node auxNode = getNode(size-2);
+		} else {
+			Node auxNode = getNode(size - 2);
 			tail = auxNode;
 			auxNode.next = null;
 		}
@@ -166,23 +171,24 @@ class DoubleLinkedList<E> implements List<E>{
 
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Invalid index!");
-		}else {
+		} else {
 			Node currentNode = getNode(index);
 			currentNode.value = value;
 		}
 	}
+
 	@Override
 	public int size() {
 		return size;
 	}
 
 	@Override
-	public String toString() {        
+	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
 		Node auxNode = head;
-		while(auxNode!=null){
+		while (auxNode != null) {
 			sb.append(auxNode.value);
-			if(auxNode.next != null){
+			if (auxNode.next != null) {
 				sb.append(", ");
 			}
 			auxNode = auxNode.next;
@@ -193,7 +199,7 @@ class DoubleLinkedList<E> implements List<E>{
 	public String reverseString() {
 		StringBuilder sb = new StringBuilder("[");
 		Node auxNode = tail;
-	
+
 		while (auxNode != null) {
 			sb.append(auxNode.value);
 			if (auxNode.prev != null) {
@@ -201,7 +207,7 @@ class DoubleLinkedList<E> implements List<E>{
 			}
 			auxNode = auxNode.prev;
 		}
-	
+
 		sb.append("]");
 		return sb.toString();
 	}
