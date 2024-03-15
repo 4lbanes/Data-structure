@@ -109,11 +109,16 @@ class DoubleLinkedList<E> implements List<E>{
 			removedValue = removeLast();
 		}else{
 			Node newNode = head;
-			Node auxNode = getNode(index - 1);
-			newNode = auxNode.next;
-			removedValue = newNode.value;
-			auxNode.next = newNode.next;
-			newNode.next = null;
+			Node auxNode1 = getNode(index);
+			Node auxNode2 = getNode(index - 1);
+			Node auxNode3 = getNode(index + 1);
+
+			auxNode2.next = auxNode1.next;
+			auxNode3.prev = auxNode1.prev;
+
+			auxNode1.prev = null;
+			auxNode1.next = null;
+			
 			size--;
 		}
 		return removedValue;
