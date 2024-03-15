@@ -1,9 +1,10 @@
 
-class LinkedList<E> implements List<E>{
+class DoubleLinkedList<E> implements List<E>{
 
 	private class Node{
 		E value;
 		Node next;
+		Node prev;
 
 		public Node(E value){
 			this.value = value;
@@ -15,22 +16,26 @@ class LinkedList<E> implements List<E>{
 	private Node head;
 	private Node tail;
 
-	public LinkedList(){}
+	public DoubleLinkedList(){}
 
-	public LinkedList(E value){
+	public DoubleLinkedList(E value){
 		add(value);
 	}
 
 	@Override
 	public void add(E value) {
 		Node newNode = new Node(value);
+
 		if(isEmpty()){
-			head = newNode;            
+			head = newNode;
+			tail = newNode;
 		}else{
-			tail.next = newNode;           
+			tail.next = newNode;
+			newNode.prev = tail;
+			newNode.next = null;
+			tail = newNode;
 		}
-		tail = newNode;
-		size++;        
+		size++;      
 	}
 
 	@Override
@@ -38,32 +43,20 @@ class LinkedList<E> implements List<E>{
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
-
-		E value = null;
-		Node newNode= head;
-
-		if(index == 0) {
-			value = head.value;
-		}else {
-			for(int i = 0; i < index; i++) {
-				newNode = newNode.next;
-				value = newNode.value;
-			}
-		}
-		return value;
+		return getNode(index).value;
 	}
+
 	@Override
 	public void insert(E value) {
 		Node newNode = new Node(value);
 
 		if(isEmpty()){
-			head = newNode;
 			tail = newNode;
 		}else{
 			newNode.next = head;
-			head = newNode;
+			head.prev = newNode;
 		}
-
+		head = newNode;
 		size++;
 	}
 
@@ -84,9 +77,11 @@ class LinkedList<E> implements List<E>{
 			add(value);
 		}else{
 			Node newNode = new Node(value);
-			Node auxNode = getNode(index-1);
-			newNode.next = auxNode.next;
-			auxNode.next = newNode;
+			Node auxNode1 = getNode(index);
+			Node auxNode2 = getNode(index-1);
+			auxNode2.next = newNode;
+			newNode.next =  auxNode1;
+			auxNode1 = newNode;
 			size++;
 		}
 	}
@@ -191,6 +186,24 @@ class LinkedList<E> implements List<E>{
 		return sb.append("]").toString();
 	}
 
+	public String reverseString() {
+		StringBuilder sb = new StringBuilder("[");
+		Node auxNode = tail;
+	
+		while (auxNode != null) {
+			sb.append(auxNode.value);
+			if (auxNode.prev != null) {
+				sb.append(", ");
+			}
+			auxNode = auxNode.prev;
+		}
+	
+		sb.append("]");
+		return sb.toString();
+	}
+	
+
+	/* 
 	@Override
 	public void replaceValue(E previousValue, E newValue) throws EmptyListException {
 		if(isEmpty()) {
@@ -230,7 +243,7 @@ class LinkedList<E> implements List<E>{
 		}
 		
 		return false;
-	}
+	}*/
 
 	public E removeByValue(E value) throws EmptyListException {
 	    if(isEmpty()) {
