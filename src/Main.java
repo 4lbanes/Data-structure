@@ -13,15 +13,18 @@ public class Main {
 		list.insert(5, 6);
 
 		list.removeByIndex(3);
-		System.out.println(list);
+		//System.out.println(list);
 
 		list.insert(3, 4);
-		System.out.println("LISTA COM PRINT NORMAL: "+list);
+		//System.out.println("LISTA COM PRINT NORMAL: "+list);
 
-		System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
+		//System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
 
-		list.removeFirst();
-		list.removeLast();
+		//list.remove(2);
+		//list.swap(1, 4);
+
+		list.swap2(6, 20);
 		System.out.println(list);
+		//System.out.println(list.indexOf(6));
 	}
 }

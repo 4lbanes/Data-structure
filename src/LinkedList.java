@@ -15,6 +15,7 @@ class DoubleLinkedList<E> implements List<E> {
 	private int size;
 	private Node head;
 	private Node tail;
+	private int j;
 
 	public DoubleLinkedList() {
 	}
@@ -82,7 +83,7 @@ class DoubleLinkedList<E> implements List<E> {
 			Node auxNode2 = getNode(index - 1);
 
 			auxNode2.next = newNode;
-			newNode.prev = auxNode2; 
+			newNode.prev = auxNode2;
 			newNode.next = auxNode1;
 			auxNode1.prev = newNode;
 			size++;
@@ -139,7 +140,6 @@ class DoubleLinkedList<E> implements List<E> {
 		} else {
 			head = head.next;
 			auxNode.next = null;
-			auxNode.prev = null;
 		}
 		size--;
 		return auxNode.value;
@@ -151,6 +151,7 @@ class DoubleLinkedList<E> implements List<E> {
 			throw new EmptyListException("Linked List is Empty!");
 		}
 		E value = tail.value;
+
 		if (size == 1) {
 			head = null;
 			tail = null;
@@ -213,10 +214,150 @@ class DoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public void clear() throws EmptyListException {
+	public void clear() {
 		head = null;
 		tail = null;
 		size = 0;
 	}
 
+	@Override
+	public void remove(E value) throws EmptyListException {
+	    if (isEmpty()) {
+	        throw new EmptyListException("List is empty!");
+	    }
+
+	    Node currentNode = head;
+
+	    while (currentNode != null) {
+	        if (currentNode.value.equals(value)) {
+	            if (currentNode == head) {
+	                removeFirst();
+	            } else if (currentNode == tail) {
+	                removeLast();
+	            } else {
+	                Node prevNode = currentNode.prev;
+	                Node nextNode = currentNode.next;
+
+	                prevNode.next = nextNode;
+	                nextNode.prev = prevNode;
+
+	                currentNode.next = null;
+	                currentNode.prev = null;
+
+	                size--;
+
+	                System.out.println("The value: " + value + " was removed from the list.");
+	            }
+	            return; 
+	        }
+
+	        currentNode = currentNode.next;
+	    }
+	    System.out.println("The value: " + value + " was not found in the list.");
+	}
+
+	@Override
+	public boolean contains(E value) throws EmptyListException{
+		if (isEmpty()) {
+	        throw new EmptyListException("List is empty!");
+	    }
+
+		Node auxNode = head;
+
+		while(auxNode != null){
+			if(auxNode.value.equals(value)){
+				return true;
+			}
+			auxNode = auxNode.next;
+		}
+		return false;
+	}
+
+	@Override
+	public int indexOf(E value) throws EmptyListException{
+		if (isEmpty()) {
+	        throw new EmptyListException("List is empty!");
+	    }
+
+		Node newNode = head;
+		int index = 0;
+
+		while(newNode != null){
+			if(newNode.value.equals(value)){
+				return index;
+			}
+			newNode = newNode.next;
+			index++;
+		}
+		return -1;
+	}
+
+	@Override
+	public void swap(int index1, int index2) throws EmptyListException {
+		if (isEmpty()) {
+			throw new EmptyListException("List is empty!");
+		}
+	
+		if (index1 < 0 || index1 >= size || index2 < 0 || index2 >= size) {
+			throw new IndexOutOfBoundsException("Some invalid index!");
+		}
+	
+		Node node1 = getNode(index1);
+		Node node2 = getNode(index2);
+
+		E value1 = node1.value;
+		E value2 = node2.value;
+	
+		node1.value = value2;
+		node2.value = value1;
+	}
+
+	@Override
+	public void swap2(int index, E newValue) throws EmptyListException{
+		if (isEmpty()) {
+			throw new EmptyListException("List is empty!");
+		}
+
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("Some invalid index!");
+		}
+
+		Node newNode = new Node(newValue);
+
+		if(index == 0){
+			Node auxNode = getNode(index);
+			Node auxNode2 = getNode(index + 1);
+
+			auxNode2.prev = newNode;
+			newNode.next = auxNode2;
+			newNode.prev = null;
+
+			auxNode.next = null;
+			auxNode.prev = null;
+
+			head = newNode;
+		}else if(index == size - 1){
+			Node auxNode = getNode(index);
+			Node auxNode2 = getNode(index - 1);
+
+			auxNode2.next = newNode;
+			newNode.prev = auxNode;
+
+			auxNode.next = null;
+			auxNode.prev = null;
+		}else{
+			Node auxNode = getNode(index);
+			Node auxNode2 = getNode(index - 1);
+			Node auxNode3 = getNode(index + 1);
+
+			newNode.next = auxNode3;
+			newNode.prev = auxNode2;
+
+			auxNode2.next = newNode;
+			auxNode3.prev = newNode;
+
+			auxNode.next = null;
+			auxNode.prev = null;
+		}
+	}
 }
