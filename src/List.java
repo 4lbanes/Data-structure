@@ -7,11 +7,8 @@ public interface List<E>{
 	E removeLast() throws EmptyListException;
 	E removeFirst() throws EmptyListException;
 	E removeByIndex(int index) throws IndexOutOfBoundsException;
-	//E removeByValue(E value) throws EmptyListException;
 	boolean isEmpty();
 	E get(int index) throws IndexOutOfBoundsException;
 	void set(int index, E value) throws IndexOutOfBoundsException;
-	/*void replaceValue(E previousValue, E newValue) throws EmptyListException;
-	boolean contains(E value) throws EmptyListException;*/
 	void clear() throws EmptyListException;
 }
