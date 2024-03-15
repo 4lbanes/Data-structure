@@ -12,7 +12,16 @@ public class Main {
 		list.insert(3, 4);
 		list.insert(5, 6);
 
-		list.removeByIndex(4);
+		list.removeByIndex(3);
+		System.out.println(list);
+
+		list.insert(3, 4);
+		System.out.println("LISTA COM PRINT NORMAL: "+list);
+
+		System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
+
+		list.removeFirst();
+		list.removeLast();
 		System.out.println(list);
 	}
 }
