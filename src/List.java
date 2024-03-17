@@ -15,5 +15,4 @@ public interface List<E>{
 	boolean contains(E value) throws EmptyListException;
 	int indexOf(E value) throws EmptyListException;
 	void swap(int index1, int index2) throws IndexOutOfBoundsException, EmptyListException;
-	void swap2(int index, E value) throws IndexOutOfBoundsException, EmptyListException;
 }

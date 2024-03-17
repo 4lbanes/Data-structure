@@ -222,53 +222,53 @@ class DoubleLinkedList<E> implements List<E> {
 
 	@Override
 	public void remove(E value) throws EmptyListException {
-	    if (isEmpty()) {
-	        throw new EmptyListException("List is empty!");
-	    }
+		if (isEmpty()) {
+			throw new EmptyListException("List is empty!");
+		}
 
-	    Node currentNode = head;
+		Node currentNode = head;
 
-	    while (currentNode != null) {
-	        if (currentNode.value.equals(value)) {
-	            if (currentNode == head) {
-	                removeFirst();
-	            } else if (currentNode == tail) {
-	                removeLast();
-	            } else {
-				   int indexNextNode = indexOf(currentNode.next.value);
-	               int indexNewNode = indexOf(currentNode.value);
-				   int indexPrevNode = indexOf(currentNode.prev.value);
+		while (currentNode != null) {
+			if (currentNode.value.equals(value)) {
+				if (currentNode == head) {
+					removeFirst();
+				} else if (currentNode == tail) {
+					removeLast();
+				} else {
+					int indexNextNode = indexOf(currentNode.next.value);
+					int indexNewNode = indexOf(currentNode.value);
+					int indexPrevNode = indexOf(currentNode.prev.value);
 
-				   Node auxNode1 = getNode(indexNewNode);
-				   Node auxNode2 = getNode(indexPrevNode);
-				   Node auxNode3 = getNode(indexNextNode);
+					Node auxNode1 = getNode(indexNewNode);
+					Node auxNode2 = getNode(indexPrevNode);
+					Node auxNode3 = getNode(indexNextNode);
 
-				   auxNode2.next = auxNode3;
-				   auxNode3.prev = auxNode2;
+					auxNode2.next = auxNode3;
+					auxNode3.prev = auxNode2;
 
-				   auxNode1.next = null;
-				   auxNode1.prev = null;
-				   
-	                size--;
-	            }
-	            return; 
-	        }
+					auxNode1.next = null;
+					auxNode1.prev = null;
 
-	        currentNode = currentNode.next;
-	    }
-	    System.out.println("The value: " + value + " was not found in the list.");
+					size--;
+				}
+				return;
+			}
+
+			currentNode = currentNode.next;
+		}
+		System.out.println("The value: " + value + " was not found in the list.");
 	}
 
 	@Override
-	public boolean contains(E value) throws EmptyListException{
+	public boolean contains(E value) throws EmptyListException {
 		if (isEmpty()) {
-	        throw new EmptyListException("List is empty!");
-	    }
+			throw new EmptyListException("List is empty!");
+		}
 
 		Node auxNode = head;
 
-		while(auxNode != null){
-			if(auxNode.value.equals(value)){
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
 				return true;
 			}
 			auxNode = auxNode.next;
@@ -277,16 +277,16 @@ class DoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public int indexOf(E value) throws EmptyListException{
+	public int indexOf(E value) throws EmptyListException {
 		if (isEmpty()) {
-	        throw new EmptyListException("List is empty!");
-	    }
+			throw new EmptyListException("List is empty!");
+		}
 
 		Node newNode = head;
 		int index = 0;
 
-		while(newNode != null){
-			if(newNode.value.equals(value)){
+		while (newNode != null) {
+			if (newNode.value.equals(value)) {
 				return index;
 			}
 			newNode = newNode.next;
@@ -300,67 +300,62 @@ class DoubleLinkedList<E> implements List<E> {
 		if (isEmpty()) {
 			throw new EmptyListException("List is empty!");
 		}
-	
+
 		if (index1 < 0 || index1 >= size || index2 < 0 || index2 >= size) {
 			throw new IndexOutOfBoundsException("Some invalid index!");
 		}
-	
+
 		Node node1 = getNode(index1);
 		Node node2 = getNode(index2);
 
 		E value1 = node1.value;
 		E value2 = node2.value;
-	
+
 		node1.value = value2;
 		node2.value = value1;
 	}
 
-	@Override
-	public void swap2(int index, E newValue) throws EmptyListException{
+	public void replace(E prevValue, E newValue) {
 		if (isEmpty()) {
 			throw new EmptyListException("List is empty!");
 		}
 
-		if (index < 0 || index >= size) {
-			throw new IndexOutOfBoundsException("Some invalid index!");
-		}
+		if (!contains(prevValue)) {
+			System.out.println(prevValue + " not found in list");
+		} else {
+			Node newNode = new Node(newValue);
 
-		Node newNode = new Node(newValue);
+			if (prevValue.equals(head.value)) {
+				head.next.prev = newNode;
+				newNode.next = head.next;
 
-		if(index == 0){
-			Node auxNode = getNode(index);
-			Node auxNode2 = getNode(index + 1);
+				head.prev = null;
 
-			auxNode2.prev = newNode;
-			newNode.next = auxNode2;
-			newNode.prev = null;
+				head = newNode;
+			} else if (prevValue.equals(tail.value)) {
+				tail.prev.next = newNode;
+				newNode.prev = tail.prev;
 
-			auxNode.next = null;
-			auxNode.prev = null;
+				tail.next = null;
 
-			head = newNode;
-		}else if(index == size - 1){
-			Node auxNode = getNode(index);
-			Node auxNode2 = getNode(index - 1);
+				tail = newNode;
+			} else {
+				Node auxNode = head;
 
-			auxNode2.next = newNode;
-			newNode.prev = auxNode;
+				while (auxNode != null) {
+					if(auxNode.value.equals(prevValue)){
+						newNode.next = auxNode.next;
+						newNode.prev = auxNode.prev;
 
-			auxNode.next = null;
-			auxNode.prev = null;
-		}else{
-			Node auxNode = getNode(index);
-			Node auxNode2 = getNode(index - 1);
-			Node auxNode3 = getNode(index + 1);
+						auxNode.prev.next = newNode;
+						auxNode.next.prev = newNode;
 
-			newNode.next = auxNode3;
-			newNode.prev = auxNode2;
-
-			auxNode2.next = newNode;
-			auxNode3.prev = newNode;
-
-			auxNode.next = null;
-			auxNode.prev = null;
+						auxNode.next = null;
+						auxNode.prev = null;
+					}
+					auxNode = auxNode.next;
+				}
+			}
 		}
 	}
 }

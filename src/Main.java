@@ -22,12 +22,11 @@ public class Main {
 		//list.remove(2);
 		//list.swap(1, 4);
 
-		list.swap2(6, 20);
 		System.out.println("LISTA COM PRINT NORMAL: "+list);
 
 		System.out.println(list.indexOf(6));
 
-		list.remove(90);
-		System.out.println("LISTA COM PRINT NORMAL: "+list);
+		list.replace(4, 198);
+		System.out.println(list.reverseString());
 	}
 }
