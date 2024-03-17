@@ -13,30 +13,21 @@ public class Main {
 		list.insert(5, 6);
 
 		list.removeByIndex(3);
-<<<<<<< HEAD
 		//System.out.println(list);
 
 		list.insert(3, 4);
-		//System.out.println("LISTA COM PRINT NORMAL: "+list);
 
-		//System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
+		System.out.println("LISTA COM PRINT REVERSO: "+list.reverseString());
 
 		//list.remove(2);
 		//list.swap(1, 4);
 
 		list.swap2(6, 20);
-=======
-		System.out.println(list);
-
-		list.insert(3, 4);
 		System.out.println("LISTA COM PRINT NORMAL: "+list);
 
-		System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
+		System.out.println(list.indexOf(6));
 
-		list.removeFirst();
-		list.removeLast();
->>>>>>> cde7affcd257485d0fd8a0a567854d51d9b945de
-		System.out.println(list);
-		//System.out.println(list.indexOf(6));
+		list.remove(90);
+		System.out.println("LISTA COM PRINT NORMAL: "+list);
 	}
 }

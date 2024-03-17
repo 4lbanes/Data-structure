@@ -15,7 +15,6 @@ class DoubleLinkedList<E> implements List<E> {
 	private int size;
 	private Node head;
 	private Node tail;
-	private int j;
 
 	public DoubleLinkedList() {
 	}
@@ -83,11 +82,7 @@ class DoubleLinkedList<E> implements List<E> {
 			Node auxNode2 = getNode(index - 1);
 
 			auxNode2.next = newNode;
-<<<<<<< HEAD
 			newNode.prev = auxNode2;
-=======
-			newNode.prev = auxNode2; 
->>>>>>> cde7affcd257485d0fd8a0a567854d51d9b945de
 			newNode.next = auxNode1;
 			auxNode1.prev = newNode;
 			size++;
@@ -144,7 +139,6 @@ class DoubleLinkedList<E> implements List<E> {
 		} else {
 			head = head.next;
 			auxNode.next = null;
-			auxNode.prev = null;
 		}
 		size--;
 		return auxNode.value;
@@ -155,11 +149,9 @@ class DoubleLinkedList<E> implements List<E> {
 		if (isEmpty()) {
 			throw new EmptyListException("Linked List is Empty!");
 		}
-		E value = tail.value;
-<<<<<<< HEAD
 
-=======
->>>>>>> cde7affcd257485d0fd8a0a567854d51d9b945de
+		E value = tail.value;
+
 		if (size == 1) {
 			head = null;
 			tail = null;
@@ -222,16 +214,11 @@ class DoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void clear() {
-=======
-	public void clear() throws EmptyListException {
->>>>>>> cde7affcd257485d0fd8a0a567854d51d9b945de
 		head = null;
 		tail = null;
 		size = 0;
 	}
-<<<<<<< HEAD
 
 	@Override
 	public void remove(E value) throws EmptyListException {
@@ -248,18 +235,21 @@ class DoubleLinkedList<E> implements List<E> {
 	            } else if (currentNode == tail) {
 	                removeLast();
 	            } else {
-	                Node prevNode = currentNode.prev;
-	                Node nextNode = currentNode.next;
+				   int indexNextNode = indexOf(currentNode.next.value);
+	               int indexNewNode = indexOf(currentNode.value);
+				   int indexPrevNode = indexOf(currentNode.prev.value);
 
-	                prevNode.next = nextNode;
-	                nextNode.prev = prevNode;
+				   Node auxNode1 = getNode(indexNewNode);
+				   Node auxNode2 = getNode(indexPrevNode);
+				   Node auxNode3 = getNode(indexNextNode);
 
-	                currentNode.next = null;
-	                currentNode.prev = null;
+				   auxNode2.next = auxNode3;
+				   auxNode3.prev = auxNode2;
 
+				   auxNode1.next = null;
+				   auxNode1.prev = null;
+				   
 	                size--;
-
-	                System.out.println("The value: " + value + " was removed from the list.");
 	            }
 	            return; 
 	        }
@@ -373,6 +363,4 @@ class DoubleLinkedList<E> implements List<E> {
 			auxNode.prev = null;
 		}
 	}
-=======
->>>>>>> cde7affcd257485d0fd8a0a567854d51d9b945de
 }

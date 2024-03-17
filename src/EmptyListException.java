@@ -4,3 +4,4 @@ public class EmptyListException extends RuntimeException {
 		super(errorMessage);
 	}
 }
+
