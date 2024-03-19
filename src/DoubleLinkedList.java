@@ -17,7 +17,7 @@ class DoubleLinkedList<E> implements List<E> {
 	private Node tail;
 
 	public DoubleLinkedList() {
-
+		
 	}
 
 	public DoubleLinkedList(E value) {
@@ -362,6 +362,7 @@ class DoubleLinkedList<E> implements List<E> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void insertSorted(E value) {
 		if (isEmpty() || ((Comparable<E>) value).compareTo(head.value) <= 0) {
 			insert(value);
