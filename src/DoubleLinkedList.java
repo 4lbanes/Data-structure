@@ -17,6 +17,7 @@ class DoubleLinkedList<E> implements List<E> {
 	private Node tail;
 
 	public DoubleLinkedList() {
+
 	}
 
 	public DoubleLinkedList(E value) {
@@ -116,8 +117,8 @@ class DoubleLinkedList<E> implements List<E> {
 			Node auxNode3 = getNode(index + 1);
 			removedValue = auxNode1.value;
 
-			auxNode2.next = auxNode1.next;
-			auxNode3.prev = auxNode1.prev;
+			auxNode2.next = auxNode3;
+			auxNode3.prev = auxNode2;
 
 			auxNode1.prev = null;
 			auxNode1.next = null;
@@ -132,16 +133,16 @@ class DoubleLinkedList<E> implements List<E> {
 		if (isEmpty()) {
 			throw new EmptyListException("Linked List is Empty!");
 		}
-		Node auxNode = head;
+		E value = head.value;
 		if (size == 1) {
 			head = null;
 			tail = null;
 		} else {
 			head = head.next;
-			auxNode.next = null;
+			head.prev = null;
 		}
 		size--;
-		return auxNode.value;
+		return value;
 	}
 
 	@Override
@@ -156,9 +157,8 @@ class DoubleLinkedList<E> implements List<E> {
 			head = null;
 			tail = null;
 		} else {
-			Node auxNode = getNode(size - 2);
-			tail = auxNode;
-			auxNode.next = null;
+			tail = tail.prev;
+			tail.next = null;
 		}
 		size--;
 		return value;
@@ -226,37 +226,40 @@ class DoubleLinkedList<E> implements List<E> {
 			throw new EmptyListException("List is empty!");
 		}
 
-		Node currentNode = head;
+		if (!contains(value)) {
+			System.out.println("The value: " + value + " was not found in the list.");
+		} else {
+			Node currentNode = head;
 
-		while (currentNode != null) {
-			if (currentNode.value.equals(value)) {
-				if (currentNode == head) {
-					removeFirst();
-				} else if (currentNode == tail) {
-					removeLast();
-				} else {
-					int indexNextNode = indexOf(currentNode.next.value);
-					int indexNewNode = indexOf(currentNode.value);
-					int indexPrevNode = indexOf(currentNode.prev.value);
+			while (currentNode != null) {
+				if (currentNode.value.equals(value)) {
+					if (currentNode == head) {
+						removeFirst();
+					} else if (currentNode == tail) {
+						removeLast();
+					} else {
+						int indexNextNode = indexOf(currentNode.next.value);
+						int indexNewNode = indexOf(currentNode.value);
+						int indexPrevNode = indexOf(currentNode.prev.value);
 
-					Node auxNode1 = getNode(indexNewNode);
-					Node auxNode2 = getNode(indexPrevNode);
-					Node auxNode3 = getNode(indexNextNode);
+						Node auxNode1 = getNode(indexNewNode);
+						Node auxNode2 = getNode(indexPrevNode);
+						Node auxNode3 = getNode(indexNextNode);
 
-					auxNode2.next = auxNode3;
-					auxNode3.prev = auxNode2;
+						auxNode2.next = auxNode3;
+						auxNode3.prev = auxNode2;
 
-					auxNode1.next = null;
-					auxNode1.prev = null;
+						auxNode1.next = null;
+						auxNode1.prev = null;
 
-					size--;
+						size--;
+					}
+					return;
 				}
-				return;
-			}
 
-			currentNode = currentNode.next;
+				currentNode = currentNode.next;
+			}
 		}
-		System.out.println("The value: " + value + " was not found in the list.");
 	}
 
 	@Override
@@ -329,21 +332,21 @@ class DoubleLinkedList<E> implements List<E> {
 				head.next.prev = newNode;
 				newNode.next = head.next;
 
-				head.prev = null;
+				head.next = null;
 
 				head = newNode;
 			} else if (prevValue.equals(tail.value)) {
 				tail.prev.next = newNode;
 				newNode.prev = tail.prev;
 
-				tail.next = null;
+				tail.prev = null;
 
 				tail = newNode;
 			} else {
 				Node auxNode = head;
 
 				while (auxNode != null) {
-					if(auxNode.value.equals(prevValue)){
+					if (auxNode.value.equals(prevValue)) {
 						newNode.next = auxNode.next;
 						newNode.prev = auxNode.prev;
 
@@ -358,4 +361,26 @@ class DoubleLinkedList<E> implements List<E> {
 			}
 		}
 	}
+
+	public void insertSorted(E value) {
+		if (isEmpty() || ((Comparable<E>) value).compareTo(head.value) <= 0) {
+			insert(value);
+		} else if (((Comparable<E>) value).compareTo(tail.value) >= 0) {
+			add(value); 
+		} else {
+			Node newNode = new Node(value);
+			Node auxNode = head;
+	
+			while (auxNode.next != null && ((Comparable<E>) auxNode.next.value).compareTo(value) < 0) {
+				auxNode = auxNode.next;
+			}
+			
+			newNode.next = auxNode.next;
+			auxNode.next.prev = newNode;
+			auxNode.next = newNode;
+			newNode.prev = auxNode;
+			size++;
+		}
+	}
+	
 }

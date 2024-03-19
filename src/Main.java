@@ -3,30 +3,13 @@ public class Main {
 	public static void main(String[] args) throws EmptyListException {
 		DoubleLinkedList<Integer> list = new DoubleLinkedList<>();
 
-		list.add(3);
-		list.add(5);
-
-		list.add(7);
 		list.insert(1);
-		list.insert(1, 2);
-		list.insert(3, 4);
-		list.insert(5, 6);
-
-		list.removeByIndex(3);
-		//System.out.println(list);
-
-		list.insert(3, 4);
-
-		System.out.println("LISTA COM PRINT REVERSO: "+list.reverseString());
-
-		//list.remove(2);
-		//list.swap(1, 4);
-
+		list.insertSorted(2);
+		list.insertSorted(3);
+		
+	
 		System.out.println("LISTA COM PRINT NORMAL: "+list);
-
-		System.out.println(list.indexOf(6));
-
-		list.replace(4, 198);
-		System.out.println(list.reverseString());
+		System.out.println("LISTA COM 'PRINT REVERSO': "+list.reverseString());
+		//System.out.println(list.indexOf(6));
 	}
 }
