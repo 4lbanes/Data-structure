@@ -1,12 +1,17 @@
 
 public class Main {
 	public static void main(String[] args) throws EmptyListException {
-		DoubleLinkedList<Integer> list = new DoubleLinkedList<>();
+		LinkedList<Integer> list = new LinkedList<>();
 
-		list.insertSorted(2);
-		list.insertSorted(3);
-		System.out.println(list);
-		list.insertSorted(1);
+		list.add(1);
+	
+		list.add(3);
+		list.add(5);
+
+		list.insert(1, 2);
+		list.insert(3, 4);
+		
+		list.remove(3);
 		System.out.println(list);
 	}
 }

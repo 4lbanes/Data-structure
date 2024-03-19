@@ -280,11 +280,7 @@ class DoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public int indexOf(E value) throws EmptyListException {
-		if (isEmpty()) {
-			throw new EmptyListException("List is empty!");
-		}
-
+	public int indexOf(E value) {
 		Node newNode = head;
 		int index = 0;
 
@@ -298,7 +294,6 @@ class DoubleLinkedList<E> implements List<E> {
 		return -1;
 	}
 
-	@Override
 	public void swap(int index1, int index2) throws EmptyListException {
 		if (isEmpty()) {
 			throw new EmptyListException("List is empty!");
