@@ -8,7 +8,8 @@ public class Main {
 		list.add(400);
 		list.add(600);
 		list.insert(4, 500);
+		list.removeByIndex(4);
 		System.out.println(list);
-		System.out.println(list.indexOf(4));
+		System.out.println(list.reverseString());
     }
 }

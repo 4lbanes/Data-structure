@@ -87,7 +87,7 @@ public class CircularList<E> implements List<E> {
 
     @Override
     public E removeLast() throws EmptyListException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("Circular list is empty");
         }
 
@@ -100,12 +100,13 @@ public class CircularList<E> implements List<E> {
             tail = tail.prev;
             tail.next = head;
         }
+        size--;
         return valueRemoved;
     }
 
     @Override
     public E removeFirst() throws EmptyListException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("Circular list is empty");
         }
 
@@ -118,16 +119,17 @@ public class CircularList<E> implements List<E> {
             head = head.next;
             head.prev = tail;
         }
+        size--;
         return removedValue;
     }
 
     @Override
     public E removeByIndex(int index) throws IndexOutOfBoundsException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("Circular list is empty");
         }
 
-        if (index > 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(index + " is Illegal index.");
         }
         E removedValue = null;
@@ -147,39 +149,33 @@ public class CircularList<E> implements List<E> {
 
             auxNode2.next = null;
             auxNode2.prev = null;
+
+            size--;
         }
         return removedValue;
     }
 
     @Override
     public void remove(E value) throws EmptyListException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("Circular list is empty");
         }
 
-        Node auxNode = head;
+        Node auxNode = head.next;
 
         if (value.equals(head.value)) {
             removeFirst();
         } else if (value.equals(tail.value)) {
             removeLast();
-        }
-
-        int index = 0;
-        while (auxNode != null) {
-            if (auxNode.value.equals(value)) {
-                Node auxNode1 = getNode(index - 1);
-                Node auxNode2 = getNode(index);
-                Node auxNode3 = getNode(index + 1);
-
-                auxNode1.next = auxNode3;
-                auxNode3.prev = auxNode1;
-
-                auxNode2.next = null;
-                auxNode2.prev = null;
+        } else {
+            while (auxNode != head) {
+                if (auxNode.value.equals(value)) {
+                    auxNode.prev.next = auxNode.next;
+                    auxNode.next.prev = auxNode.prev;
+                }
+                auxNode = auxNode.next;
             }
-            auxNode = auxNode.next;
-            index++;
+            size--;
         }
     }
 
@@ -220,41 +216,36 @@ public class CircularList<E> implements List<E> {
     }
 
     @Override
-	public boolean contains(E value) throws EmptyListException {
-		Node auxNode = head;
+    public boolean contains(E value) throws EmptyListException {
+        Node auxNode = head;
 
-		while (auxNode != null) {
-			if (auxNode.value.equals(value)) {
-				return true;
-			}
-			auxNode = auxNode.next;
-		}
-		return false;
-	}
+        while (auxNode.next != head) {
+            if (auxNode.value.equals(value)) {
+                return true;
+            }
+            auxNode = auxNode.next;
+        }
+        return false;
+    }
 
-	@Override
-	public int indexOf(E value) throws EmptyListException {
-		if (isEmpty()) {
-			throw new EmptyListException("double linked list is empty");
-		}
+    @Override
+    public int indexOf(E value) throws EmptyListException {
+        if (isEmpty()) {
+            throw new EmptyListException("double linked list is empty");
+        }
 
-		int index = 0;
-		if (!contains(value)) {
-			System.out.println(value + " not found in double linked list");
-		} else {
-			Node auxNode = head;
+        int index = 0;
+        Node auxNode = head;
 
-			while (auxNode != null) {
-				if (auxNode.value.equals(value)) {
-					return index;
-				}
-				auxNode = auxNode.next;
-				index++;
-			}
-		}
-		return -1;
-	}
-
+        while (auxNode.next != head) {
+            if (auxNode.value.equals(value)) {
+                return index;
+            }
+            auxNode = auxNode.next;
+            index++;
+        }
+        return -1;
+    }
 
     public String toString() {
         if (isEmpty()) {
@@ -274,6 +265,23 @@ public class CircularList<E> implements List<E> {
 
         sb.append("]");
         return sb.toString();
+    }
+
+    public String reverseString() {
+        StringBuilder sb = new StringBuilder("[");
+        Node auxNode = tail;
+
+        while (auxNode != head) {
+            sb.append(auxNode.value);
+            if (auxNode.prev != head) {
+                sb.append(", ");
+            }
+            auxNode = auxNode.prev;
+        }
+
+        sb.append(", ").append(head.value);
+
+        return sb.append("]").toString();
     }
 
 }

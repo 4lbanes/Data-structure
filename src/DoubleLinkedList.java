@@ -158,7 +158,7 @@ class DoubleLinkedList<E> implements List<E> {
 
 		Node auxNode = head;
 		int index = 0;
-		while (auxNode != null) {
+		while (auxNode.next != head) {
 			if (auxNode.value.equals(value)) {
 				Node auxNode2 = getNode(index - 1);
 				Node auxNode3 = getNode(index);
