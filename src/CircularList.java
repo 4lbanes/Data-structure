@@ -217,6 +217,10 @@ public class CircularList<E> implements List<E> {
 
     @Override
     public boolean contains(E value) throws EmptyListException {
+        if (isEmpty()) {
+            throw new EmptyListException("Circular linked list is empty");
+        }
+
         Node auxNode = head;
 
         while (auxNode.next != head) {
@@ -231,7 +235,7 @@ public class CircularList<E> implements List<E> {
     @Override
     public int indexOf(E value) throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("double linked list is empty");
+            throw new EmptyListException("circular list is empty");
         }
 
         int index = 0;
@@ -248,10 +252,6 @@ public class CircularList<E> implements List<E> {
     }
 
     public String toString() {
-        if (isEmpty()) {
-            return "[]";
-        }
-
         StringBuilder sb = new StringBuilder("[");
         Node auxNode = head;
 
@@ -284,4 +284,53 @@ public class CircularList<E> implements List<E> {
         return sb.append("]").toString();
     }
 
+    public void replace(E prevValue, E newValue) {
+        if (isEmpty()) {
+            throw new EmptyListException("Circular linked list is empty");
+        }
+
+        Node auxNode = head;
+
+        while (auxNode.next != head) {
+            if (auxNode.value.equals(prevValue)) {
+                auxNode.value = newValue;
+            }
+            auxNode = auxNode.next;
+        }
+    }
+
+    public E max() {
+        if (isEmpty()) {
+            throw new EmptyListException("Circular linked list is empty");
+        }
+
+        E element = head.value;
+        Node auxNode = head;
+       
+        while (auxNode.next != head) {
+            if (((Comparable<E>) auxNode.value).compareTo(element) > 0) {
+                element = auxNode.value;
+            }
+            auxNode = auxNode.next;
+        }
+        
+        return element;
+    }
+
+    public E min(){
+        if (isEmpty()) {
+            throw new EmptyListException("Circular linked list is empty");
+        }
+
+        E element = head.value;
+        Node auxNode = head;
+
+        while(auxNode.next != head){
+            if(((Comparable<E>) auxNode.value).compareTo(element) == -1){
+                element = auxNode.value;
+            }
+            auxNode = auxNode.next;
+        }
+        return element;
+    }    
 }
