@@ -332,5 +332,15 @@ public class CircularList<E> implements List<E> {
             auxNode = auxNode.next;
         }
         return element;
-    }    
+    }
+    
+    public boolean hasCycle(){
+		Node auxNode = head;
+
+		if(auxNode.prev == tail){
+			return true;
+		}
+
+		return false;
+	}
 }

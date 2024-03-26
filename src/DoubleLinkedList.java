@@ -294,6 +294,171 @@ class DoubleLinkedList<E> implements List<E> {
 		}
 	}
 
+	public void removeLastOccurrence(E value) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = tail;
+		int index = size - 1;
+
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
+				removeByIndex(index);
+				break;
+			}
+			index--;
+			auxNode = auxNode.prev;
+		}
+	}
+
+	public void replaceLastOccurence(E prev, E newValue) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = tail;
+
+		while (tail != null) {
+			if (auxNode.value.equals(prev)) {
+				auxNode.value = newValue;
+				break;
+			}
+			auxNode = auxNode.prev;
+		}
+	}
+
+	public int counterOccurences(E value) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = head;
+		int counter = 0;
+
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
+				counter++;
+			}
+			auxNode = auxNode.next;
+		}
+
+		return counter;
+	}
+
+	public int lastIndexOf(E value) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = tail;
+		int index = size - 1;
+
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
+				return index;
+			}
+			index--;
+			auxNode = auxNode.prev;
+		}
+		return -1;
+	}
+
+	public void removeDuplicates(E value) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = head;
+		auxNode = auxNode.next;
+		int index = 1;
+
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
+				removeByIndex(index);
+			} else {
+				index++;
+			}
+			auxNode = auxNode.next;
+		}
+	}
+
+	public boolean hasCycle() {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = head;
+
+		if (auxNode.prev == tail) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean equality(DoubleLinkedList<E> list2) {
+		if (isEmpty()|| list2.isEmpty()) {
+			throw new EmptyListException("Some double linked list is empty");
+		}
+
+		for (int i = 0; i < size; i++) {
+			if (!get(i).equals(list2.get(i))) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public String union(DoubleLinkedList<E> list2){
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		DoubleLinkedList<E> intersections = new DoubleLinkedList<>();
+
+		for(int i = 0; i < size; i++){
+			if(get(i).equals(list2.get(i))){
+				intersections.add(get(i));
+			}
+		}
+
+		return intersections.toString();
+	}
+
+	public String uniques(DoubleLinkedList<E> list2){
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		DoubleLinkedList<E> differences = new DoubleLinkedList<>();
+		
+		for(int i = 0; i < size; i++){
+			if(!get(i).equals(list2.get(i))){
+				differences.add(get(i));
+			}
+		}
+
+		return differences.toString();
+	}
+
+	public String getValuesByIndex(int index, DoubleLinkedList<E> list2){
+		if (isEmpty()|| list2.isEmpty()) {
+			throw new EmptyListException("Some double linked list is empty");
+		}
+
+		if (index < 0 || index >= size || index >= list2.size) {
+			throw new IndexOutOfBoundsException("Invalid index!");
+		}
+
+
+		E v1 = get(index);
+		E v2 = list2.get(index);
+
+		return "["+v1+", "+v2+"]";
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
