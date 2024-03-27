@@ -15,6 +15,7 @@ public class CircularList<E> implements List<E> {
     private int size;
     private Node head;
     private Node tail;
+    private E value;
 
     @Override
     public int size() {
@@ -347,7 +348,7 @@ public class CircularList<E> implements List<E> {
     public void replaceLastOccurence(E value, E newValue){
         Node auxNode = tail;
 
-        while(auxNode == head){
+        while(auxNode.prev != tail){
             if(auxNode.value.equals(value)){
                 auxNode.value = newValue;
             }
@@ -355,16 +356,30 @@ public class CircularList<E> implements List<E> {
         }
     }
 
-    public void removeLastOccurrence(E value){
+    public void removeLastOccurence(E value){
         Node auxNode = tail;
         int index = size - 1;
 
-        while(auxNode == head){
+        while(auxNode.prev != tail){
             if(auxNode.value.equals(value)){
                 removeByIndex(index);
+                break;
             }
             auxNode = auxNode.prev;
             index--;
         }
+    }
+
+    public int counterOccurences(E value){
+        Node auxNode = head;
+        int ct = 0;
+
+        while(auxNode.next != head){
+            if(auxNode.value.equals(value)){
+                ct++;
+            }
+            auxNode = auxNode.next;
+        }
+        return ct;
     }
 }

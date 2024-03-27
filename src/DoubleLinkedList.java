@@ -345,36 +345,12 @@ class DoubleLinkedList<E> implements List<E> {
 			throw new EmptyListException("Double linked list is empty");
 		}
 
-		Node auxNode = tail;
-		int index = size - 1;
-
-		while (auxNode != null) {
-			if (auxNode.value.equals(value)) {
-				return index;
+		for (int i = size - 1; i >= 0; i--) {
+			if (get(i).equals(value)) {
+				return i;
 			}
-			index--;
-			auxNode = auxNode.prev;
 		}
 		return -1;
-	}
-
-	public void removeDuplicates(E value) {
-		if (isEmpty()) {
-			throw new EmptyListException("Double linked list is empty");
-		}
-
-		Node auxNode = head;
-		auxNode = auxNode.next;
-		int index = 1;
-
-		while (auxNode != null) {
-			if (auxNode.value.equals(value)) {
-				removeByIndex(index);
-			} else {
-				index++;
-			}
-			auxNode = auxNode.next;
-		}
 	}
 
 	public boolean hasCycle() {
@@ -417,6 +393,7 @@ class DoubleLinkedList<E> implements List<E> {
 				intersections.add(get(i));
 			}
 		}
+		System.out.println(intersections);
 	}
 
 	public void uniques(DoubleLinkedList<E> list2) {
@@ -431,6 +408,7 @@ class DoubleLinkedList<E> implements List<E> {
 				differences.add(get(i));
 			}
 		}
+		System.out.println(differences);
 	}
 
 	public String getValuesByIndex(int index, DoubleLinkedList<E> list2) {
@@ -488,12 +466,54 @@ class DoubleLinkedList<E> implements List<E> {
 		return sum / size;
 	}
 
-	public E median(){
-		if(size % 2 == 1){
-			return get(size/2);
+	public E median() {
+		if (size % 2 == 1) {
+			return get(size / 2);
 		}
 
-		return get((size/2) - 1);
+		return get((size / 2) - 1);
+	}
+
+	public void addOverload(E value) {
+		Node newNode = new Node(value);
+
+		if (isEmpty()) {
+			head = newNode;
+		} else {
+			newNode.prev = tail;
+			newNode.next = head;
+			head.prev = newNode;
+			tail.next = newNode;
+		}
+		tail = newNode;
+		size++;
+	}
+
+	public void insertOverload(E value) {
+		Node newNode = new Node(value);
+
+		if (isEmpty()) {
+			tail = newNode;
+		} else {
+			newNode.next = head;
+			newNode.prev = tail;
+			head.prev = newNode;
+			tail.prev = newNode;
+		}
+		head = newNode;
+		size++;
+	}
+
+	public void rotateLeft() {
+		if (size < 2) {
+			return; 
+		}
+
+		Node newHead = head.next; // O segundo nó se tornará o novo cabeçalho
+		tail.next = head; // Conecta o antigo último nó ao antigo cabeçalho
+		head = newHead; // Atualiza a referência do cabeçalho
+		tail = tail.next; // Atualiza a referência da cauda
+		tail.next = null; // Define o próximo nó da cauda como nulo
 	}
 
 	@Override

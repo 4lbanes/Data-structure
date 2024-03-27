@@ -136,22 +136,22 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public void remove(E value) throws EmptyListException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("List is empty!");
         }
 
-        if(value == head.value){
+        if (value == head.value) {
             removeFirst();
-        }else if(value == tail.value){
+        } else if (value == tail.value) {
             removeLast();
-        }else{
+        } else {
             Node auxNode = head;
 
-            while(auxNode != null){
-                if(auxNode.value.equals(value)){
+            while (auxNode != null) {
+                if (auxNode.value.equals(value)) {
                     int indexAuxNode2 = indexOf(auxNode.value);
                     int indexAuxNode3 = indexOf(auxNode.next.value);
-                    
+
                     Node auxNode2 = getNode(indexAuxNode2 - 1);
                     auxNode = getNode(indexAuxNode2);
                     Node auxNode4 = getNode(indexAuxNode3);
@@ -190,11 +190,12 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public void set(int index, E value) throws IndexOutOfBoundsException {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new EmptyListException("Linked List is Empty!");
         }
-        if(index<0 || index>=size){
-            throw new IndexOutOfBoundsException("Illegal index "+index+". Availabe indexes are [0 - "+(size-1)+"]");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(
+                    "Illegal index " + index + ". Availabe indexes are [0 - " + (size - 1) + "]");
         }
 
         getNode(index).value = value;
@@ -209,25 +210,25 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(E value) throws EmptyListException {
-       Node auxNode = head;
-       
-       while(auxNode != null){
-            if(auxNode.value.equals(value)){
+        Node auxNode = head;
+
+        while (auxNode != null) {
+            if (auxNode.value.equals(value)) {
                 return true;
             }
             auxNode = auxNode.next;
-       }
+        }
 
-       return false;
+        return false;
     }
 
     @Override
     public int indexOf(E value) {
         int index = 0;
         Node auxNode = head;
-        
-        while(auxNode != null){
-            if(auxNode.value.equals(value)){
+
+        while (auxNode != null) {
+            if (auxNode.value.equals(value)) {
                 return index;
             }
             auxNode = auxNode.next;
@@ -236,6 +237,79 @@ public class LinkedList<E> implements List<E> {
         return -1;
     }
 
+    public int counterOccurences(E value) {
+        Node auxNode = head;
+        int counter = 0;
+
+        while (head != null) {
+            if (auxNode.value.equals(value)) {
+                counter++;
+            }
+            auxNode = auxNode.next;
+        }
+        return counter;
+    }
+
+    public boolean equality(LinkedList<E> list2) {
+        if (isEmpty() || list2.isEmpty()) {
+            throw new EmptyListException("Some double linked list is empty");
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (!get(i).equals(list2.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void removeLastOccurence(E value) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (get(i).equals(value)) {
+                removeByIndex(i);
+                break;
+            }
+        }
+    }
+
+    public void replaceLastOccurence(E value, E toReplace) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (get(i).equals(value)) {
+                set(i, toReplace);
+                break;
+            }
+        }
+    }
+
+    public int lastIndexOf(E value) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (get(i).equals(value)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public void removeDuplicates(E value) {
+		if (isEmpty()) {
+			throw new EmptyListException("Double linked list is empty");
+		}
+
+		Node auxNode = head;
+		int index = 1;
+
+		while (auxNode != null) {
+			if (auxNode.value.equals(value)) {
+				removeByIndex(index);
+			} else {
+				index++;
+			}
+			auxNode = auxNode.next;
+		}
+	}
+
+    
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         Node auxNode = head;
@@ -248,4 +322,20 @@ public class LinkedList<E> implements List<E> {
         }
         return sb.append("]").toString();
     }
+
+    public String reverseString() {
+        StringBuilder sb = new StringBuilder("[");
+           
+        for (int i = size - 1; i >= 0; i--) {
+            E value = get(i);
+            if (value != null) {
+                sb.append(value);
+                if (i != 0) { 
+                    sb.append(", ");
+                }
+            }
+        }
+        return sb.append(head.value).append("]").toString();
+    }
+    
 }
