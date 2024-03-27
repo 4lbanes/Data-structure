@@ -343,4 +343,28 @@ public class CircularList<E> implements List<E> {
 
 		return false;
 	}
+
+    public void replaceLastOccurence(E value, E newValue){
+        Node auxNode = tail;
+
+        while(auxNode == head){
+            if(auxNode.value.equals(value)){
+                auxNode.value = newValue;
+            }
+            auxNode = auxNode.prev;
+        }
+    }
+
+    public void removeLastOccurrence(E value){
+        Node auxNode = tail;
+        int index = size - 1;
+
+        while(auxNode == head){
+            if(auxNode.value.equals(value)){
+                removeByIndex(index);
+            }
+            auxNode = auxNode.prev;
+            index--;
+        }
+    }
 }
