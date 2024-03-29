@@ -256,16 +256,15 @@ public class CircularList<E> implements List<E> {
         StringBuilder sb = new StringBuilder("[");
         Node auxNode = head;
 
-        do {
+        while (auxNode.next != head) {
             sb.append(auxNode.value);
             if (auxNode.next != head) {
                 sb.append(", ");
             }
             auxNode = auxNode.next;
-        } while (auxNode != head);
-
-        sb.append("]");
-        return sb.toString();
+        }
+        sb.append(", ").append(tail.value);
+        return sb.append("]").toString();
     }
 
     public String reverseString() {
@@ -307,18 +306,18 @@ public class CircularList<E> implements List<E> {
 
         E element = head.value;
         Node auxNode = head;
-       
+
         while (auxNode.next != head) {
             if (((Comparable<E>) auxNode.value).compareTo(element) > 0) {
                 element = auxNode.value;
             }
             auxNode = auxNode.next;
         }
-        
+
         return element;
     }
 
-    public E min(){
+    public E min() {
         if (isEmpty()) {
             throw new EmptyListException("Circular linked list is empty");
         }
@@ -326,42 +325,42 @@ public class CircularList<E> implements List<E> {
         E element = head.value;
         Node auxNode = head;
 
-        while(auxNode.next != head){
-            if(((Comparable<E>) auxNode.value).compareTo(element) == -1){
+        while (auxNode.next != head) {
+            if (((Comparable<E>) auxNode.value).compareTo(element) == -1) {
                 element = auxNode.value;
             }
             auxNode = auxNode.next;
         }
         return element;
     }
-    
-    public boolean hasCycle(){
-		Node auxNode = head;
 
-		if(auxNode.prev == tail){
-			return true;
-		}
+    public boolean hasCycle() {
+        Node auxNode = head;
 
-		return false;
-	}
+        if (auxNode.prev == tail) {
+            return true;
+        }
 
-    public void replaceLastOccurence(E value, E newValue){
+        return false;
+    }
+
+    public void replaceLastOccurence(E value, E newValue) {
         Node auxNode = tail;
 
-        while(auxNode.prev != tail){
-            if(auxNode.value.equals(value)){
+        while (auxNode.prev != tail) {
+            if (auxNode.value.equals(value)) {
                 auxNode.value = newValue;
             }
             auxNode = auxNode.prev;
         }
     }
 
-    public void removeLastOccurence(E value){
+    public void removeLastOccurence(E value) {
         Node auxNode = tail;
         int index = size - 1;
 
-        while(auxNode.prev != tail){
-            if(auxNode.value.equals(value)){
+        while (auxNode.prev != tail) {
+            if (auxNode.value.equals(value)) {
                 removeByIndex(index);
                 break;
             }
@@ -370,16 +369,32 @@ public class CircularList<E> implements List<E> {
         }
     }
 
-    public int counterOccurences(E value){
+    public int counterOccurences(E value) {
         Node auxNode = head;
         int ct = 0;
 
-        while(auxNode.next != head){
-            if(auxNode.value.equals(value)){
+        while (auxNode.next != head) {
+            if (auxNode.value.equals(value)) {
                 ct++;
             }
             auxNode = auxNode.next;
         }
         return ct;
+    }
+
+    public E mode() {
+        Node auxNode = head;
+        E element = null;
+        int maxOccurrences = 0;
+
+        while (auxNode.next != head) {
+            if (counterOccurences(auxNode.value) > maxOccurrences) {
+                maxOccurrences = counterOccurences(auxNode.value);
+                element = auxNode.value;
+            }
+            auxNode = auxNode.next;
+        }
+
+        return element;
     }
 }

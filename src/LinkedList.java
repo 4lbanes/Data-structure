@@ -292,24 +292,81 @@ public class LinkedList<E> implements List<E> {
     }
 
     public void removeDuplicates(E value) {
-		if (isEmpty()) {
-			throw new EmptyListException("Double linked list is empty");
-		}
+        if (isEmpty()) {
+            throw new EmptyListException("Double linked list is empty");
+        }
 
-		Node auxNode = head;
-		int index = 1;
+        Node auxNode = head;
+        int index = 1;
 
-		while (auxNode != null) {
-			if (auxNode.value.equals(value)) {
-				removeByIndex(index);
-			} else {
-				index++;
-			}
-			auxNode = auxNode.next;
-		}
-	}
+        while (auxNode != null) {
+            if (auxNode.value.equals(value)) {
+                removeByIndex(index);
+            } else {
+                index++;
+            }
+            auxNode = auxNode.next;
+        }
+    }
 
-    
+    public E mode() {
+        Node auxNode = head;
+        int maxOccurrences = 0;
+        E element = null;
+
+        while (auxNode != null) {
+            if (counterOccurences(auxNode.value) > maxOccurrences) {
+                maxOccurrences = counterOccurences(auxNode.value);
+                element = auxNode.value;
+            }
+            auxNode = auxNode.next;
+        }
+        
+        return element;
+    }
+
+    public void intersections(LinkedList<E> l2) {
+        LinkedList<E> intersections = new LinkedList<>();
+
+        for (int i = 0; i < size; i++) {
+            E element = get(i);
+            if (l2.contains(element) && contains(element)) {
+                intersections.add(element);
+            }
+        }
+
+        System.out.println(intersections);
+    }
+
+    public void differences(LinkedList<E> l2) {
+        LinkedList<E> differences = new LinkedList<>();
+
+        for (int i = 0; i < size; i++) {
+            E element = get(i);
+            if (!l2.contains(element) && contains(element)) {
+                differences.add(element);
+            }
+        }
+
+        System.out.println(differences);
+    }
+
+    public void rotate() {
+        for (int i = 1; i < size / 2; i++) {
+            E tailValue = tail.value;
+            E headValue = head.value;
+
+            tail.value = headValue;
+            head.value = tailValue;
+
+            E val1 = get(i);
+            E val2 = get(size - 1 - i);
+
+            getNode(i).value = val2;
+            getNode(size - 1 - i).value = val1;
+        }
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         Node auxNode = head;
@@ -325,17 +382,16 @@ public class LinkedList<E> implements List<E> {
 
     public String reverseString() {
         StringBuilder sb = new StringBuilder("[");
-           
+
         for (int i = size - 1; i >= 0; i--) {
             E value = get(i);
             if (value != null) {
                 sb.append(value);
-                if (i != 0) { 
+                if (i != 0) {
                     sb.append(", ");
                 }
             }
         }
         return sb.append(head.value).append("]").toString();
     }
-    
 }

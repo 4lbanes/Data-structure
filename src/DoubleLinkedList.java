@@ -513,8 +513,25 @@ class DoubleLinkedList<E> implements List<E> {
 		tail.next = head; // Conecta o antigo último nó ao antigo cabeçalho
 		head = newHead; // Atualiza a referência do cabeçalho
 		tail = tail.next; // Atualiza a referência da cauda
-		tail.next = null; // Define o próximo nó da cauda como nulo
+		tail.next = null; 
 	}
+
+	public void rotate() {
+        for (int i = 1; i < size / 2; i++) {
+            E tailValue = tail.value;
+            E headValue = head.value;
+
+            tail.value = headValue;
+            head.value = tailValue;
+
+            E val1 = get(i);
+            E val2 = get(size - 1 - i);
+
+            getNode(i).value = val2;
+            getNode(size - 1 - i).value = val1;
+        }
+    }
+
 
 	@Override
 	public String toString() {
@@ -542,7 +559,6 @@ class DoubleLinkedList<E> implements List<E> {
 			auxNode = auxNode.prev;
 		}
 
-		sb.append("]");
-		return sb.toString();
+		return sb.append("]").toString();
 	}
 }
