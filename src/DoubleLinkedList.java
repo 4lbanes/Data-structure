@@ -322,7 +322,7 @@ class DoubleLinkedList<E> implements List<E> {
 		}
 	}
 
-	public int counterOccurences(E value) {
+	public int counterOccurrences(E value) {
 		if (isEmpty()) {
 			throw new EmptyListException("Double linked list is empty");
 		}
@@ -436,9 +436,9 @@ class DoubleLinkedList<E> implements List<E> {
 
 		Node auxNode = head;
 		while (auxNode != null) {
-			if (counterOccurences(auxNode.value) > maxOccurrences) {
+			if (counterOccurrences(auxNode.value) > maxOccurrences) {
 				mode = auxNode.value;
-				maxOccurrences = counterOccurences(auxNode.value);
+				maxOccurrences = counterOccurrences(auxNode.value);
 			}
 			auxNode = auxNode.next;
 		}

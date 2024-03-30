@@ -237,7 +237,7 @@ public class LinkedList<E> implements List<E> {
         return -1;
     }
 
-    public int counterOccurences(E value) {
+    public int counterOccurrences(E value) {
         Node auxNode = head;
         int counter = 0;
 
@@ -315,8 +315,8 @@ public class LinkedList<E> implements List<E> {
         E element = null;
 
         while (auxNode != null) {
-            if (counterOccurences(auxNode.value) > maxOccurrences) {
-                maxOccurrences = counterOccurences(auxNode.value);
+            if (counterOccurrences(auxNode.value) > maxOccurrences) {
+                maxOccurrences = counterOccurrences(auxNode.value);
                 element = auxNode.value;
             }
             auxNode = auxNode.next;

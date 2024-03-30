@@ -8,10 +8,8 @@ public class Main {
         sk.add(4);
 
         System.out.println(sk);
-
-        sk.set(0, 900);
-
-        System.out.println(sk);
+    
+        System.out.println(sk.max());
 
     }
 }
