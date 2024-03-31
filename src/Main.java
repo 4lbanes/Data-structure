@@ -1,15 +1,22 @@
 public class Main {
     public static void main(String[] args) throws EmptyListException {
-        StaticStack<Integer> sk = new StaticStack<>(5);
+        DynamicStack<Integer> ds = new DynamicStack<>(10);
 
-        sk.add(2);
-        sk.add(10);
-        sk.add(20);
-        sk.add(4);
+        ds.push(2);
+        ds.push(20);
+        ds.push(10);
+        ds.push(4);
+        ds.push(2);
+        ds.push(20);
+        ds.push(10);
+        ds.push(4);
+        ds.push(10);
+        ds.push(4);
+        ds.push(4);
 
-        System.out.println(sk);
-    
-        System.out.println(sk.max());
+        System.out.println(ds.mode());
+        ds.rotate();
+        System.out.println(ds);
 
     }
 }

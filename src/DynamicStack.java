@@ -1,24 +1,18 @@
-public class StaticStack<E> implements Stack<E> {
+import java.util.Arrays;
+
+public class DynamicStack<E> implements Stack<E> {
     private int size;
-    private int maxSize;
     private E[] data;
     private int top;
 
-    @SuppressWarnings("unchecked")
-    public StaticStack(int maxSize) {
-        size = 0;
-        this.maxSize = maxSize;
-        data = (E[]) new Object[maxSize];
+    public DynamicStack(int initialCapacity) {
+        if (initialCapacity <= 0) {
+            throw new IllegalArgumentException("Initial capacity must be positive");
+        }
+
+        data = (E[]) new Object[initialCapacity];
         top = -1;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return top == -1;
-    }
-
-    public boolean isFull() {
-        return top == maxSize - 1;
+        size = 0;
     }
 
     @Override
@@ -29,7 +23,7 @@ public class StaticStack<E> implements Stack<E> {
     @Override
     public void push(E value) {
         if (isFull()) {
-            throw new FullListException("Static stack is full!");
+            resize();
         }
 
         top++;
@@ -38,16 +32,20 @@ public class StaticStack<E> implements Stack<E> {
     }
 
     @Override
-    public E pop() {
+    public E pop() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty");
+            throw new EmptyListException("Dynamic stack is empty!");
         }
 
         E removed = data[top];
         top--;
         size--;
-
         return removed;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     @Override
@@ -60,18 +58,14 @@ public class StaticStack<E> implements Stack<E> {
     }
 
     @Override
-    public E peek() throws IndexOutOfBoundsException {
-        if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
-        }
-
+    public E peek() throws EmptyListException {
         return data[top];
     }
 
     @Override
     public void set(int index, E value) throws IndexOutOfBoundsException {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(index + " is illegal index");
+            throw new IndexOutOfBoundsException(index + " is invalid!");
         }
 
         data[index] = value;
@@ -85,6 +79,10 @@ public class StaticStack<E> implements Stack<E> {
 
     @Override
     public boolean contains(E value) throws EmptyListException {
+        if (isEmpty()) {
+            throw new EmptyListException("Dynamic stack is empty!");
+        }
+
         for (int i = 0; i < size; i++) {
             if (data[i].equals(value)) {
                 return true;
@@ -95,22 +93,27 @@ public class StaticStack<E> implements Stack<E> {
 
     @Override
     public int indexOf(E value) throws EmptyListException {
+        if (isEmpty()) {
+            throw new EmptyListException("Dynamic stack is empty!");
+        }
+
         for (int i = 0; i < size; i++) {
             if (data[i].equals(value)) {
                 return i;
             }
         }
+
         return -1;
     }
 
     @Override
-    public void swap(int i1, int i2) throws IndexOutOfBoundsException, EmptyListException{
-        if (i1 < 0 || i1 >= size || i2 < 0 || i2 >= size) {
-            throw new IndexOutOfBoundsException("Some invalid index");
+    public void swap(int i1, int i2) throws IndexOutOfBoundsException, EmptyListException {
+        if (isEmpty()) {
+            throw new EmptyListException("Dynamic stack is empty!");
         }
 
-        if(isEmpty()){
-            throw new EmptyListException("Static stack is empty");
+        if (i1 < 0 || i1 >= size || i2 < 0 || i2 >= size) {
+            throw new IndexOutOfBoundsException("Some invalid index");
         }
 
         E val1 = data[i1];
@@ -123,24 +126,22 @@ public class StaticStack<E> implements Stack<E> {
     @Override
     public void rotate() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
         for (int i = 0; i < size / 2; i++) {
-            if (data[i] != null) {
-                E val1 = get(i);
-                E val2 = get((size - 1) - i);
+            E val1 = get(i);
+            E val2 = get((size - 1) - i);
 
-                data[i] = val2;
-                data[(size - 1) - i] = val1;
-            }
+            data[i] = val2;
+            data[(size - 1) - i] = val1;
         }
     }
 
     @Override
     public int counterOccurrences(E value) throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
         int occurrences = 0;
@@ -149,80 +150,81 @@ public class StaticStack<E> implements Stack<E> {
                 occurrences++;
             }
         }
+
         return occurrences;
     }
 
     @Override
     public E mode() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
-        int maxOccurrences = 0;
         E element = data[0];
-
+        int maxOccurrences = 0;
         for (int i = 0; i < size; i++) {
             if (counterOccurrences(data[i]) > maxOccurrences) {
                 element = data[i];
                 maxOccurrences = counterOccurrences(element);
             }
         }
+
         return element;
     }
 
     @Override
-    public void average() throws EmptyListException{
+    public void average() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
         if (data[0] instanceof Number) {
             double average = sum() / size;
-            System.out.println("Average: " + average);
-        }else{
-            throw new IllegalArgumentException("Static stack contains non-numeric elements");
+            System.out.println(average);
+        } else {
+            System.out.println("Static stack contains non-numeric elements");
         }
     }
 
     @Override
     public E weightedAverage() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty");
+            throw new EmptyListException("Dynamic stack is empty");
         }
-    
+
         double sum = 0;
         int weights = 0;
+
         for (int i = 0; i < size; i++) {
             if (data[i] instanceof Number) {
                 double weightedValue = ((i + 1) * ((Number) data[i]).doubleValue());
                 sum += weightedValue;
                 weights += (i + 1);
-            } else {
+            }else{
                 throw new IllegalArgumentException("Static stack contains non-numeric elements");
             }
         }
-    
         double weightedAverage = sum / weights;
         return (E) Double.valueOf(weightedAverage);
     }
 
     @Override
-    public E median() throws EmptyListException{
+    public E median() throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
-        return data[size/2];
+        return data[size / 2];
     }
 
     @Override
     public void replaceLastOccurrance(E value, E toReplace) throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
+            throw new EmptyListException("Dynamic stack is empty");
         }
 
-        for (int i = size - 1; i >= 0; i--) {
-            if (data[i] != null && data[i].equals(value)) {
+        for(int i = size - 1; i >= 0; i--){
+            if(data[i] != null && data[i].equals(value)){
                 data[i] = toReplace;
                 break;
             }
@@ -232,11 +234,11 @@ public class StaticStack<E> implements Stack<E> {
     @Override
     public void replace(E value, E toReplace) throws EmptyListException {
         if (isEmpty()) {
-            throw new EmptyListException("Static stack is empty!");
+            throw new EmptyListException("Dynamic stack is empty");
         }
-
-        for (int i = 0; i < size; i++) {
-            if (data[i] != null && data[i].equals(value)) {
+        
+        for(int i = 0; i < size; i++){
+            if(data[i] != null && data[i].equals(value)){
                 data[i] = toReplace;
                 break;
             }
@@ -275,6 +277,7 @@ public class StaticStack<E> implements Stack<E> {
                 }
             }
         }
+
         return element;
     }
 
@@ -310,11 +313,19 @@ public class StaticStack<E> implements Stack<E> {
                     mux *= ((Number) data[i]).doubleValue();
                 }
             }
-            System.out.println(mux);
         } else {
             System.out.println("Static stack type incompatible");
         }
         return mux;
+    }
+
+    private boolean isFull() {
+        return top == data.length - 1;
+    }
+
+    private void resize() {
+        int newCapacity = data.length * 2;
+        data = Arrays.copyOf(data, newCapacity);
     }
 
     public String toString() {
