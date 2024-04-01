@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import org.w3c.dom.Node;
+
 public class DynamicStack<E> implements Stack<E> {
     private int size;
     private E[] data;
@@ -290,7 +292,7 @@ public class DynamicStack<E> implements Stack<E> {
         double sum = 0;
         if (data[0] instanceof Number) {
             for (int i = 0; i < size; i++) {
-                if (data[i] != null && data[i] instanceof Number) {
+                if (data[i] != null) {
                     sum += ((Number) data[i]).doubleValue();
                 }
             }
@@ -358,4 +360,62 @@ public class DynamicStack<E> implements Stack<E> {
         sb.append("]");
         return sb.toString();
     }
+
+    public boolean equality(DynamicStack ds2){
+        for(int i = 0; i < size; i++){
+            if(!get(i).equals(ds2.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public DynamicStack<E> evens() {
+        DynamicStack<E> evenStack = new DynamicStack<>(size);
+    
+        for (int i = 0; i < size; i++) {
+            if (data[i] instanceof Number) { 
+                Number number = (Number) data[i];
+                if (number.doubleValue() % 2 == 0) { 
+                    evenStack.push(data[i]); 
+                }
+            } else {
+                throw new IllegalArgumentException("element is not a number");
+            }
+        }
+    
+        return evenStack;
+    }
+
+    public DynamicStack<E> odds() {
+        DynamicStack<E> oddStack = new DynamicStack<>(size);
+    
+        for (int i = 0; i < size; i++) {
+            if (data[i] instanceof Number) { 
+                Number number = (Number) data[i];
+                if (number.doubleValue() % 2 != 0) { 
+                    oddStack.push(data[i]); 
+                }
+            } else {
+                throw new IllegalArgumentException("element is not a number");
+            }
+        }
+    
+        return oddStack;
+    }
+
+    public void multiply(DynamicStack<Integer> stack, int k) {
+        for (int i = 0; i < stack.size(); i++) {
+            int value = stack.get(i) * k;
+            stack.set(i, value);
+        }
+    }
+
+    public void division(DynamicStack<Integer> stack, int k){
+        for (int i = 0; i < stack.size(); i++) {
+            int value = stack.get(i) / k;
+            stack.set(i, value);
+        }
+    }
+
 }

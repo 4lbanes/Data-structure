@@ -369,7 +369,7 @@ public class CircularList<E> implements List<E> {
         }
     }
 
-    public int counterOccurrences(E value) {
+    public int counter(E value) {
         Node auxNode = head;
         int ct = 0;
 
@@ -388,8 +388,8 @@ public class CircularList<E> implements List<E> {
         int maxOccurrences = 0;
 
         while (auxNode.next != head) {
-            if (counterOccurrences(auxNode.value) > maxOccurrences) {
-                maxOccurrences = counterOccurrences(auxNode.value);
+            if (counter(auxNode.value) > maxOccurrences) {
+                maxOccurrences = counter(auxNode.value);
                 element = auxNode.value;
             }
             auxNode = auxNode.next;
