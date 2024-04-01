@@ -531,8 +531,7 @@ class DoubleLinkedList<E> implements List<E> {
             getNode(size - 1 - i).value = val1;
         }
     }
-
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");

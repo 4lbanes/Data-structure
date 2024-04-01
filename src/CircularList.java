@@ -396,5 +396,20 @@ public class CircularList<E> implements List<E> {
         }
 
         return element;
+    } 
+
+    public CircularList<Integer> findAllIndicesOf(E value){
+        Node auxNode = head;
+        CircularList<Integer> indexes = new CircularList<>();
+        int i = 0;
+
+        while(auxNode.next != head){
+            if(auxNode.value.equals(value)){
+                indexes.add(i);
+            }
+            i++;
+            auxNode = auxNode.next;
+        }
+        return indexes;
     }
 }

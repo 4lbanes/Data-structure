@@ -22,4 +22,4 @@ public interface Stack<E> {
 	E max() throws EmptyListException;
 	double sum() throws EmptyListException;
 	double mux() throws EmptyListException;
-}
+} 

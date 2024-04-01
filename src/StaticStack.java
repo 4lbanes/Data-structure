@@ -276,7 +276,7 @@ public class StaticStack<E> implements Stack<E> {
             }
         }
         return element;
-    }
+    } 
 
     @Override
     public double sum() throws EmptyListException {

@@ -1,7 +1,5 @@
 import java.util.Arrays;
 
-import org.w3c.dom.Node;
-
 public class DynamicStack<E> implements Stack<E> {
     private int size;
     private E[] data;
@@ -202,7 +200,7 @@ public class DynamicStack<E> implements Stack<E> {
                 double weightedValue = ((i + 1) * ((Number) data[i]).doubleValue());
                 sum += weightedValue;
                 weights += (i + 1);
-            }else{
+            } else {
                 throw new IllegalArgumentException("Static stack contains non-numeric elements");
             }
         }
@@ -225,8 +223,8 @@ public class DynamicStack<E> implements Stack<E> {
             throw new EmptyListException("Dynamic stack is empty");
         }
 
-        for(int i = size - 1; i >= 0; i--){
-            if(data[i] != null && data[i].equals(value)){
+        for (int i = size - 1; i >= 0; i--) {
+            if (data[i] != null && data[i].equals(value)) {
                 data[i] = toReplace;
                 break;
             }
@@ -238,9 +236,9 @@ public class DynamicStack<E> implements Stack<E> {
         if (isEmpty()) {
             throw new EmptyListException("Dynamic stack is empty");
         }
-        
-        for(int i = 0; i < size; i++){
-            if(data[i] != null && data[i].equals(value)){
+
+        for (int i = 0; i < size; i++) {
+            if (data[i] != null && data[i].equals(value)) {
                 data[i] = toReplace;
                 break;
             }
@@ -344,7 +342,7 @@ public class DynamicStack<E> implements Stack<E> {
         return sb.toString();
     }
 
-    public String reveString() {
+    public String reverseString() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = size - 1; i >= 0; i--) {
             if (data[i] != null) {
@@ -361,9 +359,9 @@ public class DynamicStack<E> implements Stack<E> {
         return sb.toString();
     }
 
-    public boolean equality(DynamicStack ds2){
-        for(int i = 0; i < size; i++){
-            if(!get(i).equals(ds2.get(i))){
+    public boolean equality(DynamicStack ds2) {
+        for (int i = 0; i < size; i++) {
+            if (!get(i).equals(ds2.get(i))) {
                 return false;
             }
         }
@@ -372,35 +370,35 @@ public class DynamicStack<E> implements Stack<E> {
 
     public DynamicStack<E> evens() {
         DynamicStack<E> evenStack = new DynamicStack<>(size);
-    
+
         for (int i = 0; i < size; i++) {
-            if (data[i] instanceof Number) { 
+            if (data[i] instanceof Number) {
                 Number number = (Number) data[i];
-                if (number.doubleValue() % 2 == 0) { 
-                    evenStack.push(data[i]); 
+                if (number.doubleValue() % 2 == 0) {
+                    evenStack.push(data[i]);
                 }
             } else {
                 throw new IllegalArgumentException("element is not a number");
             }
         }
-    
+
         return evenStack;
     }
 
     public DynamicStack<E> odds() {
         DynamicStack<E> oddStack = new DynamicStack<>(size);
-    
+
         for (int i = 0; i < size; i++) {
-            if (data[i] instanceof Number) { 
+            if (data[i] instanceof Number) {
                 Number number = (Number) data[i];
-                if (number.doubleValue() % 2 != 0) { 
-                    oddStack.push(data[i]); 
+                if (number.doubleValue() % 2 != 0) {
+                    oddStack.push(data[i]);
                 }
             } else {
                 throw new IllegalArgumentException("element is not a number");
             }
         }
-    
+
         return oddStack;
     }
 
@@ -411,11 +409,33 @@ public class DynamicStack<E> implements Stack<E> {
         }
     }
 
-    public void division(DynamicStack<Integer> stack, int k){
+    public void division(DynamicStack<Integer> stack, int k) {
         for (int i = 0; i < stack.size(); i++) {
             int value = stack.get(i) / k;
             stack.set(i, value);
         }
     }
 
+    public DynamicStack<Integer> findAllIndicesOf(E value) {
+        DynamicStack<Integer> indexesStack = new DynamicStack<>(size);
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(value)) {
+                indexesStack.push(i);
+            }
+        }
+        return indexesStack;
+    }
+
+    public DynamicStack<E> interleave(DynamicStack<E> stack2) {
+        if (size() != stack2.size()) {
+            throw new IllegalArgumentException("stacks are different sizes");
+        }
+        DynamicStack<E> newStack = new DynamicStack<>(size);
+        for (int i = 0; i < size; i++) {
+            newStack.push(get(i));
+            newStack.push(stack2.get(i));
+        }
+
+        return newStack;
+    }
 }

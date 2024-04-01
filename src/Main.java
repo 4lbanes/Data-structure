@@ -1,17 +1,14 @@
 public class Main {
     public static void main(String[] args) throws EmptyListException {
-        DynamicStack<Integer> ds = new DynamicStack<>(10);
+        CircularList<String> dStack = new CircularList<>();
 
-        ds.push(30);
-        ds.push(20);
-        ds.push(10);
-        ds.push(40);
-        ds.push(100);
-
-        System.out.println(ds);
-        ds.division(ds, 2);
-        System.out.println(ds);
-        ds.multiply(ds, 10);
-        System.out.println(ds);
+        dStack.add("arthur");
+        dStack.add("arthur");
+        dStack.add("pedro");
+        dStack.add("natha");
+        dStack.add("pedro");
+        dStack.add("sexo");
+       
+      System.out.println(dStack.findAllIndicesOf("pedro"));
     }
 }

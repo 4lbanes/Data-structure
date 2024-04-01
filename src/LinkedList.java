@@ -324,7 +324,7 @@ public class LinkedList<E> implements List<E> {
         
         return element;
     }
-
+ 
     public void intersections(LinkedList<E> l2) {
         LinkedList<E> intersections = new LinkedList<>();
 

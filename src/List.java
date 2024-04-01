@@ -14,4 +14,4 @@ public interface List<E>{
 	void clear() throws EmptyListException;
 	boolean contains(E value) throws EmptyListException;
 	int indexOf(E value) throws EmptyListException;
-}
+} 
